@@ -12,6 +12,7 @@ var userName = "Grant";
 var fb = new Firebase('https://flickering-fire-2691.firebaseio.com/');
 var links = fb.child('links');
 var num_links = null;
+var userPosts = new Array();
 console.log("Links: "+links);
 //listen for updates and assign the correct id.
 links.on('value', function(snapshot) {
@@ -24,6 +25,17 @@ links.on('value', function(snapshot) {
 });
 
 switchLink();
+
+links.on('child_changed', function(dataSnapshot) {
+	for(var i = 0; i < num_links; i++)
+	{
+		if(dataSnapshot.child(i+1).child('poster').toString() === "grant ")
+		{
+			buildAndAddNode(i+1);
+			userPosts.push(dataSnapshot.child(i+1));
+		}
+	}
+});
 
 $('#stats-btn').click(function(){
 	var data = {
@@ -106,6 +118,8 @@ function showStats(data) {
 	/*var ctx = document.getElementById("stats-chart").getContext("2d");
 	var myNewChart = new Chart(ctx).Line(data);*/
 }
+
+
 
 function buildAndAddNode(id) {
 
