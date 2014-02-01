@@ -94,7 +94,31 @@ function getNextLink() {
 	});
 }
 
+function updateStats(id, score) {
+	id = "badge_of"+id;
+	var badge = document.getElementById(id);
+	badge.innerHTML = score;
+}
+
 function showStats(data) {
-	var ctx = document.getElementById("stats-chart").getContext("2d");
-	var myNewChart = new Chart(ctx).Line(data);
+	/*var ctx = document.getElementById("stats-chart").getContext("2d");
+	var myNewChart = new Chart(ctx).Line(data);*/
+}
+
+function buildAndAddNode(id) {
+
+	var list = document.getElementById('stats-tracker');
+	var newLi = document.createElement('li');
+	var link = document.createElement('a');
+	var badge = document.createElement('span');
+
+	newLi.id = id;
+	newLi.setAttribute('class', 'list-group-item');
+	link.herf="#";
+	badge.setAttribute('class', 'badge');
+	badge.id = "badge_of"+id;
+
+	newLi.appendChild(link);
+	newLi.appendChild(badge);
+	list.appendChild(newLi);
 }
