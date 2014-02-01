@@ -1,4 +1,4 @@
-//app.js
+//main.js
 /*
 	CONTAINER
 		LINKS
@@ -23,6 +23,30 @@ links.on('value', function(snapshot) {
 });
 
 switchLink();
+
+$('#stats-btn').click(function(){
+	var data = {
+					labels: ['12', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'], 
+					datasets: [
+						{
+							fillColor : "rgba(220,220,220,0.5)",
+							strokeColor : "rgba(220,220,220,1)",
+							pointColor : "rgba(220,220,220,1)",
+							pointStrokeColor : "#fff",
+							data : [65,59,90,81,56,55,40]
+						},
+						{
+							fillColor : "rgba(151,187,205,0.5)",
+							strokeColor : "rgba(151,187,205,1)",
+							pointColor : "rgba(151,187,205,1)",
+							pointStrokeColor : "#fff",
+							data : [28,48,40,19,96,27,100]
+						}
+					]
+				}
+	showStats(data);
+});
+
 $('#submit-link-btn').click(function(){
 	var newId = num_links+1;
 	var newLink = links.child(newId);
@@ -54,18 +78,23 @@ $('#down-vote').click(function(){
 function switchLink() {
 	var s = setInterval(function() {
 			getNextLink();
-		}, 3000);
+		}, 30000);
 }
 
-function getNextLink(){
+function getNextLink() {
 	var idToPull = Math.floor((Math.random()*num_links)+1);
 	var newLink = new Firebase('https://flickering-fire-2691.firebaseio.com/links/'+idToPull);
 	newLink.once('value', function(dataSnapshot){
-		var contentContainer = document.getElementById('content-container');
+		var contentContainer = document.getElementById('content');
+		contentContainer.innerHTML = " ";
 		var image = document.createElement('img');
-		console.log(dataSnapshot.child('link').val());
 		image.src = dataSnapshot.child('link').val();
-		contentContainer.setAttribute('class', 'content-class');
+		contentContainer.setAttribute('class', 'content-inner');
 		contentContainer.appendChild(image);
 	});
+}
+
+function showStats(data) {
+	var ctx = document.getElementById("stats-chart").getContext("2d");
+	var myNewChart = new Chart(ctx).Line(data);
 }
