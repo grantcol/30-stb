@@ -1,0 +1,159 @@
+<!--MAIN-->
+<!DOCTYPE html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="dependencies/bootstrap/css/bootstrap.css">
+
+        <style>
+            body {
+                padding-top: 100px;
+            }
+            .content-container {
+                width: 450px;
+                height: 400px;
+                position: relative;
+            }
+            .content-inner img{
+                position: absolute;
+                max-width: 100%;
+                max-height: 100%;
+                top: 0;
+                left: 0;
+            }
+            .image-container,
+            .overlay {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+            }
+            .vote-buttons {
+                /*position: relative;*/
+            }
+            #top {
+                position: absolute;
+                width: 100%;
+                height: 50%;
+                top: 0;
+                left: 0;                
+            }
+            #bottom {
+                position: absolute;
+                width: 100%;
+                height: 50%;
+                top: 50%;
+                left: 0;                  
+            }
+            #up-btn, #down-btn {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0; 
+            }
+            a:hover {
+                background-color:rgba(42,13,138,0.2);
+                z-index: 100;
+            }
+        </style>
+</head>
+<html>
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">30-stb</a>
+            </div>
+            <div class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="#upload" data-toggle="modal" data-target="#submission-modal"><span class="glyphicon glyphicon-cloud-upload"></span></a></li>
+                <li><a href="#leaderboard" id="stats-btn" data-toggle="modal" data-target="#stats-modal"><span class="glyphicon glyphicon-sort"></span></a></li>
+                <li><a href="#categories"><span class="glyphicon glyphicon-th-large"></span></a></li>
+              </ul>
+              <form class="navbar-form navbar-left" role="search">
+ 				 <div class="form-group">
+  				   <input type="text" class="form-control" placeholder="Username">
+  			     </div>
+  				<button type="submit" class="btn btn-default">Log In</button>
+			  </form>
+            </div><!--/.nav-collapse -->
+          </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <div class="content-container" align="center">
+                        <div class="image-container" id="content">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="btn-group btn-group-justified" >
+                      <a type="button" class="btn btn-default" id="up-vote" ><span class="glyphicon glyphicon-chevron-up"></span></a>
+                      <a type="button" class="btn btn-default" id="down-vote" ><span class="glyphicon glyphicon-chevron-down"></span></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal fade bs-modal-sm" tabindex="-1" id="submission-modal" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+              
+              <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Submit a link</h4>
+                  </div>
+                  
+                  <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+                      <div class="form-group">
+                        <label for="url-input" class="col-sm-2 control-label">Link</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="url-input" placeholder="http://url-here">
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label for="username-input" class="col-sm-2 control-label">Description</label>
+                        <div class="col-sm-10">
+                          <input type="email" class="form-control" id="username-input" placeholder="description">
+                        </div>
+                      </div>
+                    </form>  
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="submit-link-btn" data-dismiss="modal">submit</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="modal fade bs-modal-sm" tabindex="-1" role="dialog" id="stats-modal" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Your links</h4>
+                  </div>
+                  <div class="modal-body">
+                    <!--<canvas id="stats-chart" width="400" height="400"></canvas>-->
+                    <ul class="list-group" id="stats-tracker"></ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+        </div>
+        <script src="dependencies/jquery-1.10.2.js"></script>
+        <script src='https://cdn.firebase.com/v0/firebase.js'></script>
+        <script src="dependencies/bootstrap/js/bootstrap.min.js"></script>
+        <script src="dependencies/bootstrap/js/chart.min.js"></script>
+        <script src="main.js"></script>
+    </body>
+</html>

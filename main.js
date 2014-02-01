@@ -67,14 +67,14 @@ $('#user').click(function(){
 $('#submit-link-btn').click(function(){
 	var newId = num_links;
 	var newLink = links.child(newId);
-	var Description = $('#username-input').val();
-	if($('url-input').val())
+	var description = $('#username-input').val();
+	if($('#url-input').val())
 	{	var link = $('#url-input').val(); }
-	console.log(link+" "+username);
-	newLink.set({'poster' : username, 'id' : num_links+1, 'link' : link, 'up' : 0, 'down' : 0});
+	console.log(link+" "+description);
+	newLink.set({'poster' : userName, 'id' : num_links+1, 'link' : link, 'up' : 0, 'down' : 0, 'name' : description});
 	console.log(newLink.name());
 	userPosts.push(newLink.name());
-	buildAndAddNode(num_links, link);
+	buildAndAddNode(num_links, description);
 });
 
 //upvote a link
@@ -109,12 +109,16 @@ function getNextLink() {
 	var idToPull = Math.floor((Math.random()*num_links)+1);
 	var newLink = new Firebase('https://flickering-fire-2691.firebaseio.com/links/'+idToPull);
 	newLink.once('value', function(dataSnapshot){
-		var contentContainer = document.getElementById('content');
-		contentContainer.innerHTML = " ";
-		console.log("STUFF "+dataSnapshot.child('id').val());
-		id_to_pass = dataSnapshot.child('id').val();
-		choosePreview("content", dataSnapshot.child('link').val(), id_to_pass);
-		contentContainer.setAttribute('class', 'content-inner');
+		if(dataSnapshot.child('id').val() != null){
+			var contentContainer = document.getElementById('content');
+			contentContainer.innerHTML = " ";
+			console.log("STUFF "+dataSnapshot.child('id').val());
+			id_to_pass = dataSnapshot.child('id').val();
+			choosePreview("content", dataSnapshot.child('link').val(), id_to_pass);
+			contentContainer.setAttribute('class', 'content-inner');
+		} else {
+			getNextLink();
+		}
 	});
 }
 
