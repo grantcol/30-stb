@@ -26,16 +26,20 @@ links.on('value', function(snapshot) {
 
 switchLink();
 
-links.on('child_changed', function(dataSnapshot) {
-	for(var i = 0; i < num_links; i++)
-	{
-		if(dataSnapshot.child(i+1).child('poster').toString() === "grant ")
-		{
-			buildAndAddNode(i+1);
-			userPosts.push(dataSnapshot.child(i+1));
-		}
+// links.on('child_changed', function(dataSnapshot) {
+// 	console.log("Test");
+// 	if(dataSnapshot.child('poster').toString() === "grant "){
+// 		buildAndAddNode(i+1);
+// 		userPosts.push(dataSnapshot.child(i+1));
+// 	}
+// });
+links.child('1').on('value', function(dataSnapshot) {
+ 	console.log("Test");
+ 	if(dataSnapshot.child('poster').toString() === "grant "){
+ 		buildAndAddNode(i+1);
+		userPosts.push(dataSnapshot.child(i+1));
 	}
-});
+ });
 
 $('#stats-btn').click(function(){
 	var data = {
@@ -66,13 +70,14 @@ $('#submit-link-btn').click(function(){
 	var username = $('#username-input').val();
 	var link = $('#url-input').val();
 	console.log(link+" "+username);
-	newLink.set({'poster' : username, 'id' : num_links+1, 'link' : link, 'up' : '0', 'down' : '0'});
+	newLink.set({'poster' : username, 'id' : num_links+1, 'link' : link, 'up' : 0, 'down' : 0});
 });
 
 //upvote a link
 $('#up-vote').click(function(){
-	var id = this.id;
-	var linkRef = new Firebase('https://flickering-fire-2691.firebaseio.com/'+id+'/up');
+	var id = document.getElementById('content').children[0].id;
+	console.log(id);
+	var linkRef = new Firebase('https://flickering-fire-2691.firebaseio.com/links/'+id+'/up');
 	linkRef.transaction(function(currentScore){
 		return currentScore+1;
 	});
@@ -81,8 +86,8 @@ $('#up-vote').click(function(){
 
 //down vote a link
 $('#down-vote').click(function(){
-	var id = this.id;
-	var linkRef = new Firebase('https://flickering-fire-2691.firebaseio.com/'+id+'/down');
+	var id = document.getElementById('content').firstChild;
+	var linkRef = new Firebase('https://flickering-fire-2691.firebaseio.com/links/'+id+'/down');
 	linkRef.transaction(function(currentScore){
 		return currentScore+1;
 	});
@@ -91,7 +96,7 @@ $('#down-vote').click(function(){
 function switchLink() {
 	var s = setInterval(function() {
 			getNextLink();
-		}, 30000);
+		}, 3000);
 }
 
 function getNextLink() {
@@ -222,6 +227,7 @@ function previewImage(destination, src) {
 	image.setAttribute('height', '100%');*/
 	image.setAttribute('class', 'content-inner');
 	image.src = src;
+	image.id = 1;
 	//hiddenId.value = src;
 
 	destDiv.appendChild(image);
