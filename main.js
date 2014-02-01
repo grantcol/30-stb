@@ -12,6 +12,7 @@ var userName = "Grant";
 var fb = new Firebase('https://flickering-fire-2691.firebaseio.com/');
 var links = fb.child('links');
 var num_links = 0;
+var startup = 1;
 var userPosts = new Array();
 var id_to_pass = null;
 console.log("Links: "+links);
@@ -24,10 +25,14 @@ links.on('value', function(snapshot) {
    });
    num_links = count;
    console.log(num_links);
-   /*for(var i = 0; i < num_links; i++)
+  /* if(startup)
    {
+      for(var i = 0; i < num_links; i++)
+      {
     	var temp = i+1;
    		buildAndAddNode(temp,"Default");
+   	  }
+   	  startup = 0;
    }*/
 });
 
@@ -134,9 +139,11 @@ function updateStats(id, score) {
 	var temp = Number(id);
 	temp -= 1;
 	id = "badge_of_"+temp;
-	console.log(id);
+	//console.log(id);
 	var badge = document.getElementById(id);
-	badge.innerHTML = score;
+	if(badge != null) {
+		badge.innerHTML = score;
+	}
 }
 
 function showStats() {
@@ -158,7 +165,6 @@ function buildAndAddNode(id, link_text) {
 	link.herf=link_text;
 	link.innerHTML = link_text;
 	badge.setAttribute('class', 'badge');
-	console.log(id);
 	badge.id = "badge_of_"+id;
 
 	newLi.appendChild(link);
