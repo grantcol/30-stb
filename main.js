@@ -11,7 +11,7 @@
 var userName = "Grant";
 var fb = new Firebase('https://flickering-fire-2691.firebaseio.com/');
 var links = fb.child('links');
-var num_links = null;
+var num_links = 0;
 var userPosts = new Array();
 var id_to_pass = null;
 console.log("Links: "+links);
@@ -24,7 +24,14 @@ links.on('value', function(snapshot) {
    });
    num_links = count;
    console.log(num_links);
+   for(var i = 0; i < num_links; i++)
+   {
+    	var temp = i+1;
+   		buildAndAddNode(temp,"Default");
+   }
 });
+
+
 
 switchLink();
 // if(userPosts.length != 0){
