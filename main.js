@@ -122,3 +122,89 @@ function buildAndAddNode(id) {
 	newLi.appendChild(badge);
 	list.appendChild(newLi);
 }
+
+//MEDIA HELPERS
+
+function choosePreview(destination, src) {
+	if(src != null){
+		if(src.indexOf('youtube') !== -1) {
+			//previewYT(destination, src);
+		} else if(src.indexOf('soundcloud') !== -1){
+			previewSC(destination, src);
+		} else if(src.indexOf('vimeo') !== -1) {
+			previewVimeo(destination, src);
+		} else {
+			previewImage(destination, src);
+		}
+	}
+}
+
+function previewYT(destination, src) {
+
+	console.log(destination);
+	var destDiv = document.getElementById(destination);
+	var YTplayer = document.createElement('iframe');
+	//var hiddenId = document.getElementById('hidden-url');
+	var temp = src.split('=');
+	var embedCode = temp[1];
+
+	//construct the YTplayer
+	YTplayer.setAttribute('frameborder', '0');
+	YTplayer.setAttribute('allowfullscreen', 'true');
+	YTplayer.setAttribute('width', '100%');
+	YTplayer.setAttribute('height', '100%');
+	YTplayer.src = "https://www.youtube.com/embed/"+embedCode;
+	destDiv.appendChild(YTplayer);
+	//put the html text in the value so we can send it out.
+	//hiddenId.value = destDiv.innerHTML;
+}
+
+function previewSC(destination, src) {
+
+	console.log(src);
+	var hiddenId = document.getElementById(destination);
+	//REMINDER THIS IS VERY INSECURE PLEASE DO SOMETHING
+	//ABOUT THIS BEFORE DEPLOYING PUBLICALLY
+	SC.initialize({
+  		client_id: 'aea5c6bdd2e60daed3a83bc19d269cc3'
+	});
+
+	var track_url = src;
+	SC.oEmbed(track_url, { auto_play: false, iframe: true }, document.getElementById(destination));
+	//hiddenId.value = document.getElementById(destination).innerHTML;
+}
+
+function previewVimeo(destination, src) {
+
+	console.log(src);
+	var destDiv = document.getElementById(destination);
+	var Vplayer = document.createElement('iframe');
+	//var hiddenId = document.getElementById('hidden-url');
+	var temp = src.split('/');
+	var embedCode = temp[3];
+
+	//construct the Vplayer
+	Vplayer.setAttribute('frameborder', '0');
+	Vplayer.setAttribute('allowfullscreen', 'true');
+	Vplayer.setAttribute('width', '100%');
+	Vplayer.setAttribute('height', '100%');
+	Vplayer.src = "https://player.vimeo.com/video/"+embedCode;
+	destDiv.appendChild(Vplayer);
+
+	//hiddenId.value = destDiv.innerHTML;
+}
+
+function previewImage(destination, src) {
+
+	console.log(src);
+	var destDiv = document.getElementById(destination);
+	var image = document.createElement('img');
+	//var hiddenId = document.getElementById('hidden-url');
+
+	image.setAttribute('width', '100%');
+	image.setAttribute('height', '100%');
+	image.src = src;
+	//hiddenId.value = src;
+
+	destDiv.appendChild(image);
+}
