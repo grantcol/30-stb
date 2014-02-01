@@ -24,11 +24,11 @@ links.on('value', function(snapshot) {
    });
    num_links = count;
    console.log(num_links);
-   for(var i = 0; i < num_links; i++)
+   /*for(var i = 0; i < num_links; i++)
    {
     	var temp = i+1;
    		buildAndAddNode(temp,"Default");
-   }
+   }*/
 });
 
 
