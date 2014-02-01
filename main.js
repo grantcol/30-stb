@@ -8,10 +8,11 @@
 			DOWN
 */
 
+var userName = "Grant";
 var fb = new Firebase('https://flickering-fire-2691.firebaseio.com/');
 var links = fb.child('links');
 var num_links = null;
-console.log("Links: "+links);
+
 //listen for updates and assign the correct id.
 links.on('value', function(snapshot) {
    var count = 0;
@@ -87,12 +88,14 @@ function getNextLink() {
 	newLink.once('value', function(dataSnapshot){
 		var contentContainer = document.getElementById('content');
 		contentContainer.innerHTML = " ";
-		var image = document.createElement('img');
-		image.src = dataSnapshot.child('link').val();
+		//var image = document.createElement('img');
+		//image.src = dataSnapshot.child('link').val();
+		choosePreview("content", dataSnapshot.child('link').val());
 		contentContainer.setAttribute('class', 'content-inner');
 		contentContainer.appendChild(image);
 	});
 }
+
 
 function updateStats(id, score) {
 	id = "badge_of"+id;
@@ -208,3 +211,11 @@ function previewImage(destination, src) {
 
 	destDiv.appendChild(image);
 }
+
+/*var linkObj = new Firebase('url'+links)
+for(num_links){ 
+	var thislink = linkObj.child(i).child('poster');
+	if(thisLink.indexOf('grant') !== -1){
+		arrayOfPosts.push(thisLink);
+	}
+}*/
