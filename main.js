@@ -87,7 +87,7 @@ $('#up-vote').click(function(){
 
 //down vote a link
 $('#down-vote').click(function(){
-	var id = document.getElementById('content').firstChild;
+	var id = document.getElementById('content').children[0].id;
 	var linkRef = new Firebase('https://flickering-fire-2691.firebaseio.com/links/'+id+'/down');
 	linkRef.transaction(function(currentScore){
 		return currentScore+1;
@@ -108,7 +108,8 @@ function getNextLink() {
 		contentContainer.innerHTML = " ";
 		//var image = document.createElement('img');
 		//image.src = dataSnapshot.child('link').val();
-		choosePreview("content", dataSnapshot.child('link').val(), dataSnapshot.child('id').val());
+		console.log(dataSnapshot.child('id'));
+		choosePreview("content", dataSnapshot.child('link').val(), dataSnapshot.child('id'));
 		contentContainer.setAttribute('class', 'content-inner');
 		//contentContainer.appendChild(image);
 	});
@@ -228,7 +229,7 @@ function previewImage(destination, src, id) {
 	image.setAttribute('height', '100%');*/
 	image.setAttribute('class', 'content-inner');
 	image.src = src;
-	image.id = id;
+	image.setAttribute('id', id);
 	//hiddenId.value = src;
 
 	destDiv.appendChild(image);
