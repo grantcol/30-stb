@@ -27,19 +27,17 @@ links.on('value', function(snapshot) {
 });
 
 switchLink();
-
-// links.on('child_changed', function(dataSnapshot) {
-// 	console.log("Test");
-// 	if(dataSnapshot.child('poster').toString() === "grant "){
-// 		buildAndAddNode(i+1);
-// 		userPosts.push(dataSnapshot.child(i+1));
+// if(userPosts.length != 0){
+// 	for(var i =0; i < userPosts.length; i++){
+// 		console.log(userPosts[i]);
+// 		buildAndAddNode(userPosts[i].child('id'), userPosts[i].child('link'));
 // 	}
-// });
-links.child('1').on('value', function(dataSnapshot) {
+// }
+links.on('child_changed', function(childSnapshot, prevChildName) {
  	console.log("Test");
- 	if(dataSnapshot.child('poster').toString() === "grant "){
- 		buildAndAddNode(i+1);
-		userPosts.push(dataSnapshot.child(i+1));
+ 	if(childSnapshot.child('poster').toString() === userName){
+		userPosts.push(childSnapshot);
+		updateStats(childSnapshot.child('id').val(), childSnapshot.child('up').val());
 	}
  });
 
@@ -63,7 +61,7 @@ $('#stats-btn').click(function(){
 						}
 					]
 				}
-	showStats(data);
+	showStats();
 });
 
 $('#submit-link-btn').click(function(){
@@ -73,6 +71,7 @@ $('#submit-link-btn').click(function(){
 	var link = $('#url-input').val();
 	console.log(link+" "+username);
 	newLink.set({'poster' : username, 'id' : num_links+1, 'link' : link, 'up' : 0, 'down' : 0});
+	buildAndAddNode(num_links+1, link);
 });
 
 //upvote a link
@@ -81,6 +80,8 @@ $('#up-vote').click(function(){
 	console.log(id);
 	var linkRef = new Firebase('https://flickering-fire-2691.firebaseio.com/links/'+id+'/up');
 	linkRef.transaction(function(currentScore){
+		console.log("currentScore: "+currentScore+1);
+		updateStats(id, currentScore+1);
 		return currentScore+1;
 	});
 
@@ -107,13 +108,10 @@ function getNextLink() {
 	newLink.once('value', function(dataSnapshot){
 		var contentContainer = document.getElementById('content');
 		contentContainer.innerHTML = " ";
-		//var image = document.createElement('img');
-		//image.src = dataSnapshot.child('link').val();
 		console.log("STUFF "+dataSnapshot.child('id').val());
 		id_to_pass = dataSnapshot.child('id').val();
 		choosePreview("content", dataSnapshot.child('link').val(), id_to_pass);
 		contentContainer.setAttribute('class', 'content-inner');
-		//contentContainer.appendChild(image);
 	});
 }
 
@@ -124,14 +122,14 @@ function updateStats(id, score) {
 	badge.innerHTML = score;
 }
 
-function showStats(data) {
+function showStats() {
 	/*var ctx = document.getElementById("stats-chart").getContext("2d");
 	var myNewChart = new Chart(ctx).Line(data);*/
 }
 
 
 
-function buildAndAddNode(id) {
+function buildAndAddNode(id, link_text) {
 
 	var list = document.getElementById('stats-tracker');
 	var newLi = document.createElement('li');
@@ -140,7 +138,8 @@ function buildAndAddNode(id) {
 
 	newLi.id = id;
 	newLi.setAttribute('class', 'list-group-item');
-	link.herf="#";
+	link.herf=link_text;
+	link.innerHTML = link_text;
 	badge.setAttribute('class', 'badge');
 	badge.id = "badge_of"+id;
 
@@ -229,18 +228,10 @@ function previewImage(destination, src, id) {
 
 	/*image.setAttribute('width', '100%');
 	image.setAttribute('height', '100%');*/
-	image.setAttribute('class', 'content-inner');
+	image.setAttribute('class', 'content-inner img-responsive');
 	image.src = src;
 	image.setAttribute('id', id);
 	//hiddenId.value = src;
 
 	destDiv.appendChild(image);
 }
-
-/*var linkObj = new Firebase('url'+links)
-for(num_links){ 
-	var thislink = linkObj.child(i).child('poster');
-	if(thisLink.indexOf('grant') !== -1){
-		arrayOfPosts.push(thisLink);
-	}
-}*/
