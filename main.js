@@ -59,11 +59,17 @@ $('#stats-btn').click(function(){
 	showStats();
 });
 
+$('#user').click(function(){
+	userName = $('#AUserName').val();
+	console.log(userName);
+});
+
 $('#submit-link-btn').click(function(){
 	var newId = num_links;
 	var newLink = links.child(newId);
-	var username = $('#username-input').val();
-	var link = $('#url-input').val();
+	var Description = $('#username-input').val();
+	if($('url-input').val())
+	{	var link = $('#url-input').val(); }
 	console.log(link+" "+username);
 	newLink.set({'poster' : username, 'id' : num_links+1, 'link' : link, 'up' : 0, 'down' : 0});
 	console.log(newLink.name());
