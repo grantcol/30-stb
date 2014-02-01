@@ -27,12 +27,7 @@ links.on('value', function(snapshot) {
 });
 
 switchLink();
-// if(userPosts.length != 0){
-// 	for(var i =0; i < userPosts.length; i++){
-// 		console.log(userPosts[i]);
-// 		buildAndAddNode(userPosts[i].child('id'), userPosts[i].child('link'));
-// 	}
-// }
+
 links.on('child_changed', function(childSnapshot, prevChildName) {
  	console.log("Test");
  	if(childSnapshot.child('poster').toString() === userName){
@@ -65,13 +60,15 @@ $('#stats-btn').click(function(){
 });
 
 $('#submit-link-btn').click(function(){
-	var newId = num_links+1;
+	var newId = num_links;
 	var newLink = links.child(newId);
 	var username = $('#username-input').val();
 	var link = $('#url-input').val();
 	console.log(link+" "+username);
 	newLink.set({'poster' : username, 'id' : num_links+1, 'link' : link, 'up' : 0, 'down' : 0});
-	buildAndAddNode(num_links+1, link);
+	console.log(newLink.name());
+	userPosts.push(newLink.name());
+	buildAndAddNode(num_links, link);
 });
 
 //upvote a link
@@ -117,7 +114,10 @@ function getNextLink() {
 
 
 function updateStats(id, score) {
-	id = "badge_of"+id;
+	var temp = Number(id);
+	temp -= 1;
+	id = "badge_of_"+temp;
+	console.log(id);
 	var badge = document.getElementById(id);
 	badge.innerHTML = score;
 }
@@ -141,7 +141,8 @@ function buildAndAddNode(id, link_text) {
 	link.herf=link_text;
 	link.innerHTML = link_text;
 	badge.setAttribute('class', 'badge');
-	badge.id = "badge_of"+id;
+	console.log(id);
+	badge.id = "badge_of_"+id;
 
 	newLi.appendChild(link);
 	newLi.appendChild(badge);
