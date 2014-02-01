@@ -14,6 +14,7 @@ var links = fb.child('links');
 var num_links = null;
 var userPosts = new Array();
 console.log("Links: "+links);
+
 //listen for updates and assign the correct id.
 links.on('value', function(snapshot) {
    var count = 0;
