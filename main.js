@@ -12,12 +12,8 @@ var userName = "Grant";
 var fb = new Firebase('https://flickering-fire-2691.firebaseio.com/');
 var links = fb.child('links');
 var num_links = null;
-<<<<<<< HEAD
-
-=======
 var userPosts = new Array();
 console.log("Links: "+links);
->>>>>>> 4b315af082d17b3497d2398a9959a0b9d9db4b06
 //listen for updates and assign the correct id.
 links.on('value', function(snapshot) {
    var count = 0;
