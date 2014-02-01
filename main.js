@@ -13,6 +13,7 @@ var fb = new Firebase('https://flickering-fire-2691.firebaseio.com/');
 var links = fb.child('links');
 var num_links = null;
 var userPosts = new Array();
+var id_to_pass = null;
 console.log("Links: "+links);
 
 //listen for updates and assign the correct id.
@@ -108,8 +109,9 @@ function getNextLink() {
 		contentContainer.innerHTML = " ";
 		//var image = document.createElement('img');
 		//image.src = dataSnapshot.child('link').val();
-		console.log(dataSnapshot.child('id'));
-		choosePreview("content", dataSnapshot.child('link').val(), dataSnapshot.child('id'));
+		console.log("STUFF "+dataSnapshot.child('id').val());
+		id_to_pass = dataSnapshot.child('id').val();
+		choosePreview("content", dataSnapshot.child('link').val(), id_to_pass);
 		contentContainer.setAttribute('class', 'content-inner');
 		//contentContainer.appendChild(image);
 	});
@@ -149,7 +151,7 @@ function buildAndAddNode(id) {
 
 //MEDIA HELPERS
 
-function choosePreview(destination, src) {
+function choosePreview(destination, src, id) {
 	if(src != null){
 		if(src.indexOf('youtube') !== -1) {
 			//previewYT(destination, src);
@@ -158,7 +160,7 @@ function choosePreview(destination, src) {
 		} else if(src.indexOf('vimeo') !== -1) {
 			previewVimeo(destination, src);
 		} else {
-			previewImage(destination, src);
+			previewImage(destination, src, id);
 		}
 	}
 }
