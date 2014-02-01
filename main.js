@@ -8,6 +8,7 @@
 			DOWN
 */
 
+var userName = "Grant";
 var fb = new Firebase('https://flickering-fire-2691.firebaseio.com/');
 var links = fb.child('links');
 var num_links = null;
@@ -92,6 +93,10 @@ function getNextLink() {
 		contentContainer.setAttribute('class', 'content-inner');
 		contentContainer.appendChild(image);
 	});
+}
+
+function getStats() {
+    var id
 }
 
 function showStats(data) {
