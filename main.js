@@ -104,7 +104,7 @@ function getNextLink() {
 		//image.src = dataSnapshot.child('link').val();
 		choosePreview("content", dataSnapshot.child('link').val());
 		contentContainer.setAttribute('class', 'content-inner');
-		contentContainer.appendChild(image);
+		//contentContainer.appendChild(image);
 	});
 }
 
@@ -218,8 +218,9 @@ function previewImage(destination, src) {
 	var image = document.createElement('img');
 	//var hiddenId = document.getElementById('hidden-url');
 
-	image.setAttribute('width', '100%');
-	image.setAttribute('height', '100%');
+	/*image.setAttribute('width', '100%');
+	image.setAttribute('height', '100%');*/
+	image.setAttribute('class', 'content-inner');
 	image.src = src;
 	//hiddenId.value = src;
 
